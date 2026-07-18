@@ -277,6 +277,19 @@
   }
   .pill:hover{border-color:var(--accent); color:var(--text); background:var(--surface-hover);}
 
+  /* Certifications */
+  .certs-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px;}
+  .cert-card{
+    border:1px solid var(--border); border-radius:12px; padding:22px;
+    background:var(--surface); transition:border-color .3s ease, transform .3s ease;
+  }
+  .cert-card:hover{border-color:rgba(110,231,255,0.3); transform:translateY(-3px);}
+  .cert-name{font-family:var(--sans); font-size:0.95rem; font-weight:500; color:var(--text); margin-bottom:6px; line-height:1.35;}
+  .cert-issuer{font-family:var(--mono); font-size:0.78rem; color:var(--accent2);}
+  .certs-more{margin-top:28px; color:var(--text-faint); font-size:0.88rem; font-family:var(--mono);}
+  .certs-more a{color:var(--accent); text-decoration:none;}
+  .certs-more a:hover{text-decoration:underline;}
+
   /* Marquee */
   .marquee-wrap{overflow:hidden; border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:26px 0; background:var(--bg-alt);}
   .marquee{display:flex; gap:60px; white-space:nowrap; animation:scroll 28s linear infinite; width:fit-content;}
@@ -319,6 +332,7 @@
     <li><a href="#experience">Experience</a></li>
     <li><a href="#projects">Projects</a></li>
     <li><a href="#skills">Skills</a></li>
+    <li><a href="#certifications">Certifications</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <a class="nav-cta" href="Abdelrahman_Qasim_CV.pdf" download>Résumé ↓</a>
@@ -326,7 +340,7 @@
 
 <section class="hero" id="top">
   <div class="hero-glow" id="heroGlow"></div>
-  <span class="eyebrow"><span class="pulse"></span>Open to AI Engineering roles · Istanbul / Remote</span>
+  <span class="eyebrow"><span class="pulse"></span>Available immediately · Open to relocation · Istanbul / Remote</span>
   <h1 class="hero-title">Building reliable <span class="grad">AI systems</span>, from LLM pipelines to production ML.</h1>
   <p class="hero-sub">I'm <b>Abdelrahman Qasim</b>, an AI Engineer working across LLM systems, agentic architectures, computer vision, and classical ML, with a focus on <b>evaluation, reliability, and shipping production-grade AI products.</b></p>
   <div class="hero-actions">
@@ -361,6 +375,7 @@
     <div class="info-list reveal">
       <div class="info-row"><span class="k">Location</span><span class="v">Istanbul, Türkiye</span></div>
       <div class="info-row"><span class="k">Status</span><span class="v">Work-permit eligible</span></div>
+      <div class="info-row"><span class="k">Availability</span><span class="v">Immediately · Open to relocation</span></div>
       <div class="info-row"><span class="k">Email</span><span class="v"><a href="mailto:abdelqasim.eng@gmail.com">abdelqasim.eng@gmail.com</a></span></div>
       <div class="info-row"><span class="k">GitHub</span><span class="v"><a href="https://github.com/abdelqasim" target="_blank" rel="noopener">github.com/abdelqasim</a></span></div>
       <div class="info-row"><span class="k">LinkedIn</span><span class="v"><a href="https://linkedin.com/in/abdelrahman-qasim" target="_blank" rel="noopener">in/abdelrahman-qasim</a></span></div>
@@ -401,7 +416,7 @@
     <div class="proj-card reveal">
       <div class="proj-year">2025 – 2026 · Thesis</div>
       <div class="proj-title">Style-Adaptive Conversational Agent for WhatsApp</div>
-      <p class="proj-desc">An LLM-powered agent deployed live on WhatsApp using n8n as the automation backbone. Analyzes each user's tone, vocabulary, and formality to dynamically condition LLM responses, with multi-turn memory, context windowing, and guardrail layers to prevent drift.</p>
+      <p class="proj-desc">An LLM-powered agent deployed live on WhatsApp using n8n as the automation backbone. Analyzes each user's tone, vocabulary, and formality to dynamically condition LLM responses in real time, personalizing every conversation, with multi-turn memory, context windowing, and guardrail layers to prevent drift.</p>
       <div class="proj-tags">
         <span class="tag">n8n</span><span class="tag">OpenAI API</span><span class="tag">RAG</span><span class="tag">Qdrant</span><span class="tag">Haystack 2.x</span><span class="tag">Docker</span>
       </div>
@@ -412,7 +427,7 @@
     <div class="proj-card reveal">
       <div class="proj-year">2026 · Platform</div>
       <div class="proj-title">HVAC Fault Detection &amp; Diagnostics Platform</div>
-      <p class="proj-desc">Production-grade fault detection for HVAC equipment using the LBNL RTU dataset. Sliding-window feature engineering across 6 sensor signals feeds a LightGBM classifier with MLflow tracking. Shipped as a FastAPI microservice with real-time and batch inference, fully containerized.</p>
+      <p class="proj-desc">Production-grade fault detection for HVAC equipment using the LBNL RTU dataset. Sliding-window feature engineering across 6 sensor signals feeds a LightGBM classifier that identifies 7 distinct fault types with MLflow tracking. Shipped as a FastAPI microservice with real-time and batch inference, fully containerized for one-command deployment.</p>
       <div class="proj-tags">
         <span class="tag">LightGBM</span><span class="tag">FastAPI</span><span class="tag">MLflow</span><span class="tag">Streamlit</span><span class="tag">Docker</span>
       </div>
@@ -506,9 +521,51 @@
   </div>
 </section>
 
+<section id="certifications">
+  <div class="sec-head reveal">
+    <span class="sec-tag">05 / Certifications</span>
+    <h1 class="sec-title">Credentials<span>.</span></h1>
+  </div>
+  <div class="certs-grid">
+    <div class="cert-card reveal">
+      <div class="cert-name">Explainable AI (XAI) Specialization</div>
+      <div class="cert-issuer">Duke University</div>
+    </div>
+    <div class="cert-card reveal">
+      <div class="cert-name">GenAI Foundations and AI Agents Development</div>
+      <div class="cert-issuer">Starweaver</div>
+    </div>
+    <div class="cert-card reveal">
+      <div class="cert-name">Deep Learning with PyTorch, Keras and TensorFlow Specialization</div>
+      <div class="cert-issuer">IBM</div>
+    </div>
+    <div class="cert-card reveal">
+      <div class="cert-name">MLOps Platforms: Amazon SageMaker and Azure ML</div>
+      <div class="cert-issuer">Duke University</div>
+    </div>
+    <div class="cert-card reveal">
+      <div class="cert-name">Machine Learning Operations (MLOps): Getting Started</div>
+      <div class="cert-issuer">Google Cloud</div>
+    </div>
+    <div class="cert-card reveal">
+      <div class="cert-name">Introduction to Neural Networks and PyTorch</div>
+      <div class="cert-issuer">IBM</div>
+    </div>
+    <div class="cert-card reveal">
+      <div class="cert-name">Structuring Machine Learning Projects</div>
+      <div class="cert-issuer">DeepLearning.AI</div>
+    </div>
+    <div class="cert-card reveal">
+      <div class="cert-name">Introduction to Microsoft Azure</div>
+      <div class="cert-issuer">Microsoft</div>
+    </div>
+  </div>
+  <p class="certs-more reveal">+ 7 more, including Cloud Virtualization &amp; Containers, Data Science Methodology, and Supervised/Unsupervised ML. Full list on <a href="https://linkedin.com/in/abdelrahman-qasim" target="_blank" rel="noopener">LinkedIn</a>.</p>
+</section>
+
 <section class="contact" id="contact">
   <div class="reveal">
-    <span class="sec-tag">05 / Contact</span>
+    <span class="sec-tag">06 / Contact</span>
     <h1 class="sec-title">Let's build something reliable together.</h1>
     <p class="contact-sub">Open to AI Engineering roles and interesting collaborations. Reach out, I usually reply within a day.</p>
     <div class="contact-actions">
@@ -543,6 +600,7 @@
   const groups = [
     document.querySelectorAll('.projects-grid .reveal'),
     document.querySelectorAll('.skills-wrap .reveal'),
+    document.querySelectorAll('.certs-grid .reveal'),
     document.querySelectorAll('.info-list.reveal, .about-text.reveal')
   ];
   groups.forEach(group => {
