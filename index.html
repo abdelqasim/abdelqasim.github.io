@@ -215,7 +215,7 @@
 
   /* About */
   .about{background:var(--bg-alt); border-top:1px solid var(--border); border-bottom:1px solid var(--border);}
-  .about-grid{display:grid; grid-template-columns:1.3fr 1fr; gap:70px; align-items:start;}
+  .about-grid{display:grid; grid-template-columns:240px 1.15fr 0.85fr; gap:50px; align-items:start;}
   .about-text p{color:var(--text-dim); font-size:1.02rem; margin-bottom:18px; font-weight:300;}
   .about-text b{color:var(--text); font-weight:500;}
   .info-list{display:flex; flex-direction:column; gap:0;}
@@ -225,6 +225,66 @@
   .info-row .v{color:var(--text); font-weight:500; text-align:right;}
   .info-row a{color:var(--accent); text-decoration:none;}
   .info-row a:hover{text-decoration:underline;}
+
+  /* About photo */
+  .about-photo-col{display:flex; flex-direction:column; gap:16px;}
+  .about-photo{
+    position:relative; width:100%; aspect-ratio:1/1.08; border-radius:18px; overflow:hidden;
+    border:1px solid var(--border); background:linear-gradient(160deg, var(--surface), var(--bg-alt));
+  }
+  .about-photo::before{
+    content:''; position:absolute; inset:-1px; border-radius:18px; padding:1px;
+    background:linear-gradient(150deg, var(--accent), transparent 40%, var(--accent2));
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor; mask-composite:exclude; opacity:0.5; pointer-events:none;
+  }
+  .about-photo img{width:100%; height:100%; object-fit:cover; display:block; filter:grayscale(8%) contrast(104%);}
+  .photo-fallback{
+    display:flex; position:absolute; inset:0; align-items:center; justify-content:center;
+    font-family:var(--display); font-size:3.2rem; font-weight:700; color:var(--accent);
+    background:
+      radial-gradient(circle at 30% 20%, rgba(110,231,255,0.12), transparent 55%),
+      linear-gradient(160deg, var(--surface), var(--bg-alt));
+  }
+  .about-photo-tag{
+    font-family:var(--mono); font-size:0.72rem; color:var(--text-faint);
+    display:flex; align-items:center; gap:8px;
+  }
+  .about-photo-tag .pulse{width:6px; height:6px; border-radius:50%; background:var(--accent); box-shadow:0 0 8px var(--accent); animation:blink 2s ease-in-out infinite;}
+
+  /* Terminal / demo blocks */
+  .whoami{
+    margin-top:34px; max-width:560px; border-radius:12px; overflow:hidden;
+    border:1px solid var(--border); background:#0c0e13;
+    opacity:0; animation:fadeUp .9s ease .5s forwards;
+  }
+  .term-head{display:flex; align-items:center; gap:8px; padding:10px 14px; background:#101319; border-bottom:1px solid var(--border);}
+  .term-dot{width:9px; height:9px; border-radius:50%;}
+  .term-dot.r{background:#ff5f57;} .term-dot.y{background:#febc2e;} .term-dot.g{background:#28c840;}
+  .term-title{margin-left:8px; font-family:var(--mono); font-size:0.72rem; color:var(--text-faint);}
+  .term-body{padding:16px 18px; font-family:var(--mono); font-size:0.82rem; line-height:1.7;}
+  .term-body .p{color:var(--accent);}
+  .term-body .c{color:var(--text-faint);}
+  .term-body .s{color:#facc15;}
+  .term-body .k{color:var(--accent2);}
+  .term-body .out{color:var(--text-dim);}
+
+  .demo-toggle{
+    margin-top:16px; padding-top:0; border-top:none;
+    display:inline-flex; align-items:center; gap:8px; cursor:pointer; user-select:none;
+    font-family:var(--mono); font-size:0.78rem; color:var(--text-faint);
+    transition:color .25s ease;
+  }
+  .demo-toggle:hover{color:var(--accent);}
+  .demo-toggle .chev{transition:transform .3s ease; display:inline-block;}
+  .proj-card.open .demo-toggle .chev{transform:rotate(90deg);}
+  .proj-demo{
+    max-height:0; overflow:hidden; transition:max-height .4s cubic-bezier(.2,.9,.3,1), margin .4s ease;
+    border-radius:10px; margin-top:0;
+  }
+  .proj-card.open .proj-demo{max-height:340px; margin-top:14px;}
+  .proj-demo-inner{border:1px solid var(--border); border-radius:10px; background:#0c0e13; overflow:hidden;}
+  .proj-demo .term-body{font-size:0.76rem; padding:14px 16px;}
 
   /* Experience */
   .exp-card{
@@ -312,12 +372,18 @@
     position:relative; z-index:2;
   }
 
+  @media (max-width:1100px){
+    .about-grid{grid-template-columns:180px 1fr; gap:36px;}
+    .about-photo-col{grid-column:1; grid-row:1 / span 2;}
+  }
   @media (max-width:900px){
     .nav-links{display:none;}
-    .about-grid{grid-template-columns:1fr; gap:40px;}
+    .about-grid{grid-template-columns:1fr; gap:32px;}
+    .about-photo-col{max-width:220px;}
     .projects-grid{grid-template-columns:1fr;}
     section{padding:90px 6vw;}
     .hero-meta{gap:32px;}
+    .whoami{max-width:100%;}
   }
 </style>
 </head>
@@ -353,6 +419,18 @@
     <div><strong>20+</strong>ML/AI certifications</div>
     <div><strong>B.Sc.</strong>AI Engineering, Graduated 2026</div>
   </div>
+  <div class="whoami">
+    <div class="term-head"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">zsh — whoami</span></div>
+    <div class="term-body">
+      <div><span class="p">$</span> <span class="k">whoami</span> --role=ai_engineer</div>
+      <div class="out">{</div>
+      <div class="out">&nbsp;&nbsp;"name": <span class="s">"Abdelrahman Qasim"</span>,</div>
+      <div class="out">&nbsp;&nbsp;"stack": [<span class="s">"LLM systems"</span>, <span class="s">"agentic AI"</span>, <span class="s">"MLOps"</span>],</div>
+      <div class="out">&nbsp;&nbsp;"status": <span class="s">"shipping"</span>,</div>
+      <div class="out">&nbsp;&nbsp;"open_to": <span class="s">"AI Engineering roles"</span></div>
+      <div class="out">}</div>
+    </div>
+  </div>
 </section>
 
 <div class="marquee-wrap">
@@ -367,6 +445,13 @@
     <h1 class="sec-title">Who I am<span>.</span></h1>
   </div>
   <div class="about-grid">
+    <div class="about-photo-col reveal">
+      <div class="about-photo">
+        <img src="profile.jpg" alt="Abdelrahman Qasim" onerror="this.style.display='none'; document.getElementById('photoFallback').style.display='flex';">
+        <div class="photo-fallback" id="photoFallback">AQ</div>
+      </div>
+      <div class="about-photo-tag"><span class="pulse"></span>Istanbul, TR · Local time 21:58</div>
+    </div>
     <div class="about-text reveal">
       <p>I'm an <b>Artificial Intelligence Engineer</b> based in Istanbul, Türkiye, with a B.Sc. in AI Engineering from Bahçeşehir University (2026). My work spans <b>LLM systems, agentic architectures, computer vision, and classical ML</b>, with an emphasis on the parts most engineers skip: evaluation, reliability, and fairness.</p>
       <p>During my internship at <b>ROVR</b>, a Swiss recruitment-tech startup, I shipped a production AI pipeline that combined deterministic NLP with LLM components to process real-world CVs at scale, including an LLM-as-a-Judge evaluation layer, bias analysis, and quality-control mechanisms that measurably reduced rank instability.</p>
@@ -420,6 +505,17 @@
       <div class="proj-tags">
         <span class="tag">n8n</span><span class="tag">OpenAI API</span><span class="tag">RAG</span><span class="tag">Qdrant</span><span class="tag">Haystack 2.x</span><span class="tag">Docker</span>
       </div>
+      <div class="demo-toggle" onclick="this.closest('.proj-card').classList.toggle('open')"><span class="chev">▸</span> Sample I/O</div>
+      <div class="proj-demo"><div class="proj-demo-inner">
+        <div class="term-head"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">webhook.log</span></div>
+        <div class="term-body">
+          <div><span class="p">→</span> <span class="k">POST</span> /webhook/whatsapp</div>
+          <div class="out">&nbsp;&nbsp;user: <span class="s">"hey, do u guys deliver on weekends lol"</span></div>
+          <div class="c">&nbsp;&nbsp;// tone detector: casual, low formality</div>
+          <div class="out">&nbsp;&nbsp;reply: <span class="s">"Yup, weekend delivery's covered 🙌 want me to check a slot for you?"</span></div>
+          <div class="c">&nbsp;&nbsp;// memory: 4 turns retained · guardrail: on-topic ✓</div>
+        </div>
+      </div></div>
       <a class="proj-link" href="https://github.com/abdelqasim/whatsapp-style-agent" target="_blank" rel="noopener">View on GitHub
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
       </a>
@@ -431,6 +527,18 @@
       <div class="proj-tags">
         <span class="tag">LightGBM</span><span class="tag">FastAPI</span><span class="tag">MLflow</span><span class="tag">Streamlit</span><span class="tag">Docker</span>
       </div>
+      <div class="demo-toggle" onclick="this.closest('.proj-card').classList.toggle('open')"><span class="chev">▸</span> Sample I/O</div>
+      <div class="proj-demo"><div class="proj-demo-inner">
+        <div class="term-head"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">curl — /predict</span></div>
+        <div class="term-body">
+          <div><span class="p">$</span> curl -X <span class="k">POST</span> /predict -d @sensor_window.json</div>
+          <div class="out">{</div>
+          <div class="out">&nbsp;&nbsp;"fault_type": <span class="s">"condenser_fouling"</span>,</div>
+          <div class="out">&nbsp;&nbsp;"confidence": <span class="s">0.94</span>,</div>
+          <div class="out">&nbsp;&nbsp;"latency_ms": <span class="s">38</span></div>
+          <div class="out">}</div>
+        </div>
+      </div></div>
       <a class="proj-link" href="https://github.com/abdelqasim/HVACC" target="_blank" rel="noopener">View on GitHub
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
       </a>
@@ -442,6 +550,17 @@
       <div class="proj-tags">
         <span class="tag">LSTM</span><span class="tag">XGBoost</span><span class="tag">TensorFlow</span><span class="tag">Streamlit</span><span class="tag">ccxt</span>
       </div>
+      <div class="demo-toggle" onclick="this.closest('.proj-card').classList.toggle('open')"><span class="chev">▸</span> Sample I/O</div>
+      <div class="proj-demo"><div class="proj-demo-inner">
+        <div class="term-head"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">backtest.py</span></div>
+        <div class="term-body">
+          <div><span class="p">$</span> python backtest.py --pair <span class="k">BTCUSDT</span> --window 90d</div>
+          <div class="out">Signal accuracy: <span class="s">73.2%</span></div>
+          <div class="out">Sharpe ratio: <span class="s">1.8</span></div>
+          <div class="out">Max drawdown: <span class="s">-11.4%</span></div>
+          <div class="c">&nbsp;&nbsp;// live signals streamed to Streamlit dashboard</div>
+        </div>
+      </div></div>
       <a class="proj-link" href="https://github.com/abdelqasim/lstm-xgb-trading-signals" target="_blank" rel="noopener">View on GitHub
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
       </a>
@@ -453,6 +572,16 @@
       <div class="proj-tags">
         <span class="tag">CNN-GRU</span><span class="tag">Mediapipe</span><span class="tag">MLflow</span><span class="tag">Streamlit</span><span class="tag">Docker</span>
       </div>
+      <div class="demo-toggle" onclick="this.closest('.proj-card').classList.toggle('open')"><span class="chev">▸</span> Sample I/O</div>
+      <div class="proj-demo"><div class="proj-demo-inner">
+        <div class="term-head"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">inference.stream</span></div>
+        <div class="term-body">
+          <div><span class="p">→</span> frame_id: <span class="s">10422</span> · pose_kpts: 33</div>
+          <div class="out">classification: <span class="s">"Bad"</span> (conf 0.91)</div>
+          <div class="c">&nbsp;&nbsp;// audio alert triggered after 3 consecutive bad frames</div>
+          <div class="out">test accuracy: <span class="s">94%</span> · macro F1: <span class="s">0.92</span></div>
+        </div>
+      </div></div>
       <a class="proj-link" href="https://github.com/abdelqasim/posture-monitor-cnn-gru" target="_blank" rel="noopener">View on GitHub
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
       </a>
@@ -464,6 +593,16 @@
       <div class="proj-tags">
         <span class="tag">CNN</span><span class="tag">DBSCAN</span><span class="tag">Random Forest</span><span class="tag">MLflow</span>
       </div>
+      <div class="demo-toggle" onclick="this.closest('.proj-card').classList.toggle('open')"><span class="chev">▸</span> Sample I/O</div>
+      <div class="proj-demo"><div class="proj-demo-inner">
+        <div class="term-head"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">predict_cluster.py</span></div>
+        <div class="term-body">
+          <div><span class="p">$</span> python predict_cluster.py --sample_id <span class="k">C-0148</span></div>
+          <div class="out">cluster: <span class="s">"nutrient_deficient_low_light"</span></div>
+          <div class="out">rf_confidence: <span class="s">0.88</span> · inference: <span class="s">4ms</span></div>
+          <div class="c">&nbsp;&nbsp;// surrogate model avoids re-running DBSCAN per sample</div>
+        </div>
+      </div></div>
       <a class="proj-link" href="https://github.com/abdelqasim/Hybrid-AI-for-Hydroponic-Crop-Analysis" target="_blank" rel="noopener">View on GitHub
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
       </a>
@@ -475,6 +614,16 @@
       <div class="proj-tags">
         <span class="tag">PCA</span><span class="tag">Scikit-learn</span><span class="tag">NumPy</span><span class="tag">OpenCV</span>
       </div>
+      <div class="demo-toggle" onclick="this.closest('.proj-card').classList.toggle('open')"><span class="chev">▸</span> Sample I/O</div>
+      <div class="proj-demo"><div class="proj-demo-inner">
+        <div class="term-head"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">reconstruct.py</span></div>
+        <div class="term-body">
+          <div><span class="p">$</span> python reconstruct.py --components <span class="k">150</span></div>
+          <div class="out">reconstruction MSE: <span class="s">0.0041</span></div>
+          <div class="out">variance explained: <span class="s">96.3%</span></div>
+          <div class="c">&nbsp;&nbsp;// nearest-neighbor similarity search over 150-dim embedding</div>
+        </div>
+      </div></div>
       <a class="proj-link" href="https://github.com/abdelqasim/pca-facial-recognition" target="_blank" rel="noopener">View on GitHub
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
       </a>
