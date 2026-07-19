@@ -253,6 +253,11 @@
   .about-photo-tag .pulse{width:6px; height:6px; border-radius:50%; background:var(--accent); box-shadow:0 0 8px var(--accent); animation:blink 2s ease-in-out infinite;}
 
   /* Terminal / demo blocks */
+  .whoami{
+    margin-top:34px; max-width:560px; border-radius:12px; overflow:hidden;
+    border:1px solid var(--border); background:#0c0e13;
+    opacity:0; animation:fadeUp .9s ease .5s forwards;
+  }
   .term-head{display:flex; align-items:center; gap:8px; padding:10px 14px; background:#101319; border-bottom:1px solid var(--border);}
   .term-dot{width:9px; height:9px; border-radius:50%;}
   .term-dot.r{background:#ff5f57;} .term-dot.y{background:#febc2e;} .term-dot.g{background:#28c840;}
@@ -378,6 +383,7 @@
     .projects-grid{grid-template-columns:1fr;}
     section{padding:90px 6vw;}
     .hero-meta{gap:32px;}
+    .whoami{max-width:100%;}
   }
 </style>
 </head>
@@ -511,14 +517,13 @@
       </div>
       <div class="demo-toggle" onclick="this.closest('.proj-card').classList.toggle('open')"><span class="chev">▸</span> Sample I/O</div>
       <div class="proj-demo"><div class="proj-demo-inner">
-        <div class="term-head"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">curl — /predict</span></div>
+        <div class="term-head"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">eval — test set (LightGBM)</span></div>
         <div class="term-body">
-          <div><span class="p">$</span> curl -X <span class="k">POST</span> /predict -d @sensor_window.json</div>
-          <div class="out">{</div>
-          <div class="out">&nbsp;&nbsp;"fault_type": <span class="s">"condenser_fouling"</span>,</div>
-          <div class="out">&nbsp;&nbsp;"confidence": <span class="s">0.94</span>,</div>
-          <div class="out">&nbsp;&nbsp;"latency_ms": <span class="s">38</span></div>
-          <div class="out">}</div>
+          <div><span class="p">$</span> python evaluate.py --split test</div>
+          <div class="out">accuracy: <span class="s">90.9%</span> · f1_macro: <span class="s">0.909</span></div>
+          <div class="out">n=990 windows · 6 balanced fault classes</div>
+          <div class="c">&nbsp;&nbsp;// best: evaporator_fouling &amp; refrigerant_overcharge (f1=1.00)</div>
+          <div class="c">&nbsp;&nbsp;// hardest: refrigerant_undercharge (f1=0.75)</div>
         </div>
       </div></div>
       <a class="proj-link" href="https://github.com/abdelqasim/HVACC" target="_blank" rel="noopener">View on GitHub
@@ -577,12 +582,13 @@
       </div>
       <div class="demo-toggle" onclick="this.closest('.proj-card').classList.toggle('open')"><span class="chev">▸</span> Sample I/O</div>
       <div class="proj-demo"><div class="proj-demo-inner">
-        <div class="term-head"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">predict_cluster.py</span></div>
+        <div class="term-head"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">eval — RF surrogate vs DBSCAN</span></div>
         <div class="term-body">
-          <div><span class="p">$</span> python predict_cluster.py --sample_id <span class="k">C-0148</span></div>
-          <div class="out">cluster: <span class="s">"nutrient_deficient_low_light"</span></div>
-          <div class="out">rf_confidence: <span class="s">0.88</span> · inference: <span class="s">4ms</span></div>
-          <div class="c">&nbsp;&nbsp;// surrogate model avoids re-running DBSCAN per sample</div>
+          <div><span class="p">$</span> python train_classifier_equal_data.py --cv groupkfold</div>
+          <div class="out">accuracy: <span class="s">100%</span> · f1_macro: <span class="s">1.00</span> (5-fold CV)</div>
+          <div class="out">verified leakage-free (image-level GroupKFold split)</div>
+          <div class="c">&nbsp;&nbsp;// RF approximates DBSCAN's own boundary for fast inference —</div>
+          <div class="c">&nbsp;&nbsp;// expected to be near-perfect since it's a deterministic surrogate</div>
         </div>
       </div></div>
       <a class="proj-link" href="https://github.com/abdelqasim/Hybrid-AI-for-Hydroponic-Crop-Analysis" target="_blank" rel="noopener">View on GitHub
@@ -601,9 +607,9 @@
         <div class="term-head"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">reconstruct.py</span></div>
         <div class="term-body">
           <div><span class="p">$</span> python reconstruct.py --components <span class="k">150</span></div>
-          <div class="out">reconstruction MSE: <span class="s">0.0041</span></div>
+          <div class="out">reconstruction MSE: <span class="s">0.00072</span></div>
           <div class="out">variance explained: <span class="s">96.3%</span></div>
-          <div class="c">&nbsp;&nbsp;// nearest-neighbor similarity search over 150-dim embedding</div>
+          <div class="c">&nbsp;&nbsp;// nearest-neighbor similarity search over the PCA embedding</div>
         </div>
       </div></div>
       <a class="proj-link" href="https://github.com/abdelqasim/pca-facial-recognition" target="_blank" rel="noopener">View on GitHub
