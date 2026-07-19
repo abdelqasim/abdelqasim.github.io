@@ -253,11 +253,6 @@
   .about-photo-tag .pulse{width:6px; height:6px; border-radius:50%; background:var(--accent); box-shadow:0 0 8px var(--accent); animation:blink 2s ease-in-out infinite;}
 
   /* Terminal / demo blocks */
-  .whoami{
-    margin-top:34px; max-width:560px; border-radius:12px; overflow:hidden;
-    border:1px solid var(--border); background:#0c0e13;
-    opacity:0; animation:fadeUp .9s ease .5s forwards;
-  }
   .term-head{display:flex; align-items:center; gap:8px; padding:10px 14px; background:#101319; border-bottom:1px solid var(--border);}
   .term-dot{width:9px; height:9px; border-radius:50%;}
   .term-dot.r{background:#ff5f57;} .term-dot.y{background:#febc2e;} .term-dot.g{background:#28c840;}
@@ -383,7 +378,6 @@
     .projects-grid{grid-template-columns:1fr;}
     section{padding:90px 6vw;}
     .hero-meta{gap:32px;}
-    .whoami{max-width:100%;}
   }
 </style>
 </head>
@@ -418,18 +412,6 @@
     <div><strong>3+</strong>Shipped ML/LLM systems</div>
     <div><strong>20+</strong>ML/AI certifications</div>
     <div><strong>B.Sc.</strong>AI Engineering, Graduated 2026</div>
-  </div>
-  <div class="whoami">
-    <div class="term-head"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">zsh — whoami</span></div>
-    <div class="term-body">
-      <div><span class="p">$</span> <span class="k">whoami</span> --role=ai_engineer</div>
-      <div class="out">{</div>
-      <div class="out">&nbsp;&nbsp;"name": <span class="s">"Abdelrahman Qasim"</span>,</div>
-      <div class="out">&nbsp;&nbsp;"stack": [<span class="s">"LLM systems"</span>, <span class="s">"agentic AI"</span>, <span class="s">"MLOps"</span>],</div>
-      <div class="out">&nbsp;&nbsp;"status": <span class="s">"shipping"</span>,</div>
-      <div class="out">&nbsp;&nbsp;"open_to": <span class="s">"AI Engineering roles"</span></div>
-      <div class="out">}</div>
-    </div>
   </div>
 </section>
 
