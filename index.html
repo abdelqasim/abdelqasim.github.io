@@ -28,36 +28,29 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0b0f17;
-    --bg-elev:#111726;
-    --bg-card:#141b2d;
-    --border:#232c42;
-    --text:#e8ecf4;
-    --text-dim:#9aa5bd;
-    --text-faint:#6b7590;
+    --bg:#060709;
+    --bg-soft:#0a0d12;
+    --bg-elev:#0c1016;
+    --bg-card:#0d1118;
+    --bg-card-hi:#11161f;
+    --border:#1b212c;
+    --border-hi:#2a3342;
+    --text:#f2f4f9;
+    --text-dim:#9aa4ba;
+    --text-faint:#636c80;
     --accent:#5eead4;
     --accent-dim:#2dd4bf;
-    --accent-soft:rgba(94,234,212,0.12);
-    --navy:#1f2937;
-    --radius:14px;
-    --maxw:1080px;
-  }
-  @media (prefers-color-scheme: light){
-    :root{
-      --bg:#f7f8fb;
-      --bg-elev:#ffffff;
-      --bg-card:#ffffff;
-      --border:#e3e7f0;
-      --text:#141927;
-      --text-dim:#515d78;
-      --text-faint:#8089a3;
-      --accent:#0f9d8e;
-      --accent-dim:#0b8276;
-      --accent-soft:rgba(15,157,142,0.1);
-    }
+    --accent-ink:#06211c;
+    --accent-soft:rgba(94,234,212,0.10);
+    --accent-glow:rgba(94,234,212,0.22);
+    --green:#22c55e;
+    --radius:16px;
+    --maxw:1120px;
+    --mono:'JetBrains Mono',monospace;
+    --display:'Space Grotesk',sans-serif;
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -66,100 +59,157 @@
     background:var(--bg);
     color:var(--text);
     font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-    line-height:1.55;
+    line-height:1.6;
     -webkit-font-smoothing:antialiased;
+    position:relative;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size:64px 64px;
+    opacity:.45;
+    -webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, black 0%, transparent 72%);
+    mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, black 0%, transparent 72%);
+  }
+  body::after{
+    content:"";position:fixed;z-index:-1;pointer-events:none;
+    top:-10%;left:50%;transform:translateX(-50%);width:1100px;height:700px;
+    background:radial-gradient(closest-side, var(--accent-glow), transparent 75%);
+    filter:blur(10px);
   }
   a{color:var(--accent);text-decoration:none;}
   a:hover{text-decoration:underline;}
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
-  code,.mono{font-family:'JetBrains Mono',monospace;}
+  code,.mono{font-family:var(--mono);}
+  h1,h2,h3{font-family:var(--display);}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in-view{opacity:1;transform:translateY(0);}
 
   /* Nav */
   nav{
     position:sticky;top:0;z-index:50;
-    background:color-mix(in srgb, var(--bg) 85%, transparent);
-    backdrop-filter:blur(10px);
+    background:color-mix(in srgb, var(--bg) 78%, transparent);
+    backdrop-filter:blur(14px);
     border-bottom:1px solid var(--border);
   }
-  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;}
-  .brand{font-weight:700;font-size:15px;letter-spacing:.2px;color:var(--text);}
-  .brand span{color:var(--accent);}
-  .navlinks{display:flex;gap:28px;align-items:center;}
-  .navlinks a{color:var(--text-dim);font-size:14px;font-weight:500;}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:66px;}
+  .brand{font-family:var(--display);font-weight:700;font-size:16px;letter-spacing:.2px;color:var(--text);display:flex;align-items:center;gap:7px;}
+  .brand .tri{color:var(--accent);font-size:13px;}
+  .navlinks{display:flex;gap:30px;align-items:center;}
+  .navlinks a{color:var(--text-dim);font-size:13.5px;font-weight:500;font-family:var(--mono);letter-spacing:.01em;}
   .navlinks a:hover{color:var(--text);text-decoration:none;}
   .navlinks .cta{
-    color:var(--bg);background:var(--accent);padding:8px 16px;border-radius:8px;font-weight:600;
+    color:var(--accent-ink);background:var(--accent);padding:9px 18px;border-radius:8px;font-weight:700;font-family:'Inter';
   }
   .navlinks .cta:hover{background:var(--accent-dim);text-decoration:none;}
   .navtoggle{display:none;background:none;border:1px solid var(--border);border-radius:8px;color:var(--text);width:38px;height:38px;font-size:18px;cursor:pointer;}
 
-  /* Hero */
-  header.hero{padding:88px 0 64px;position:relative;overflow:hidden;}
-  header.hero::before{
-    content:"";position:absolute;inset:-20% -10% auto -10%;height:480px;
-    background:radial-gradient(60% 60% at 30% 20%, var(--accent-soft), transparent 70%);
-    pointer-events:none;
-  }
+  /* Shared eyebrow */
   .eyebrow{
     display:inline-flex;align-items:center;gap:8px;
-    font-size:13px;font-weight:600;color:var(--accent);
-    background:var(--accent-soft);border:1px solid rgba(94,234,212,0.25);
-    padding:6px 12px;border-radius:999px;margin-bottom:22px;
+    font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--accent);
   }
-  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 0 rgba(94,234,212,.6);animation:pulse 2s infinite;}
+  .eyebrow .tri{font-size:10px;color:var(--accent-dim);}
+  .eyebrow.pill{
+    background:var(--accent-soft);border:1px solid rgba(94,234,212,0.25);
+    padding:7px 14px;border-radius:999px;
+  }
+  .dot-live{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 0 rgba(94,234,212,.6);animation:pulse 2s infinite;flex:none;}
   @keyframes pulse{
     0%{box-shadow:0 0 0 0 rgba(94,234,212,.5);}
     70%{box-shadow:0 0 0 8px rgba(94,234,212,0);}
     100%{box-shadow:0 0 0 0 rgba(94,234,212,0);}
   }
-  h1.name{font-size:clamp(34px,5.5vw,56px);font-weight:800;letter-spacing:-0.02em;margin:0 0 10px;}
-  .tagline{font-size:clamp(17px,2.2vw,21px);color:var(--text-dim);max-width:640px;margin:0 0 26px;font-weight:500;}
+
+  /* Hero */
+  header.hero{padding:76px 0 0;position:relative;}
+  .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:52px;align-items:center;padding-bottom:56px;}
+  h1.name{font-size:clamp(36px,5.6vw,60px);font-weight:700;letter-spacing:-0.02em;margin:18px 0 14px;line-height:1.05;}
+  h1.name .accent-word{color:var(--accent);}
+  .tagline{font-size:clamp(16px,2vw,19px);color:var(--text-dim);max-width:560px;margin:0 0 26px;}
   .tagline b{color:var(--text);font-weight:600;}
-  .hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:34px;}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:32px;}
   .pill{
     display:inline-flex;align-items:center;gap:6px;
-    font-size:13px;color:var(--text-dim);background:var(--bg-elev);
+    font-size:12.5px;color:var(--text-dim);background:var(--bg-elev);font-family:var(--mono);
     border:1px solid var(--border);padding:7px 13px;border-radius:999px;
   }
-  .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:56px;}
+  .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;}
   .btn{
-    display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:9px;
-    font-weight:600;font-size:14px;border:1px solid transparent;transition:transform .15s ease;
+    display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:9px;
+    font-weight:600;font-size:14px;border:1px solid transparent;transition:transform .15s ease, border-color .15s ease;
   }
   .btn:hover{transform:translateY(-1px);text-decoration:none;}
-  .btn-primary{background:var(--accent);color:#06251f;}
+  .btn-primary{background:var(--accent);color:var(--accent-ink);}
   .btn-primary:hover{background:var(--accent-dim);}
   .btn-ghost{background:transparent;color:var(--text);border-color:var(--border);}
   .btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
 
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
-  .stat{background:var(--bg-elev);padding:20px 18px;}
-  .stat .num{font-size:26px;font-weight:800;color:var(--accent);font-family:'JetBrains Mono',monospace;}
-  .stat .label{font-size:12.5px;color:var(--text-faint);margin-top:4px;}
+  /* Terminal / status panel */
+  .panel-wrap{position:relative;}
+  .term{
+    background:var(--bg-card);border:1px solid var(--border-hi);border-radius:12px;
+    overflow:hidden;box-shadow:0 30px 80px -30px rgba(0,0,0,.7);
+  }
+  .term-bar{display:flex;align-items:center;gap:8px;padding:11px 14px;border-bottom:1px solid var(--border);background:var(--bg-elev);}
+  .term-dot{width:9px;height:9px;border-radius:50%;}
+  .term-dot.r{background:#ff5f57;} .term-dot.y{background:#febc2e;} .term-dot.g{background:#28c840;}
+  .term-title{margin-left:8px;font-family:var(--mono);font-size:11.5px;color:var(--text-faint);}
+  .term-body{padding:20px;font-family:var(--mono);font-size:13px;}
+  .term-row{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px dashed var(--border);}
+  .term-row:last-child{border-bottom:none;}
+  .term-k{color:var(--text-faint);}
+  .term-v{color:var(--text);text-align:right;}
+  .term-v.accentv{color:var(--accent);}
+  .panel-corner{position:absolute;width:22px;height:22px;border:2px solid var(--accent);opacity:.55;pointer-events:none;}
+  .panel-corner.tl{top:-10px;left:-10px;border-right:none;border-bottom:none;}
+  .panel-corner.br{bottom:-10px;right:-10px;border-left:none;border-top:none;}
+
+  /* Stat strip (full-bleed) */
+  .statstrip{border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg-soft);}
+  .statstrip .wrap{display:grid;grid-template-columns:repeat(4,1fr);}
+  .sstat{padding:26px 18px;text-align:center;border-left:1px solid var(--border);}
+  .sstat:first-child{border-left:none;}
+  .sstat .num{font-family:var(--display);font-size:clamp(22px,3vw,30px);font-weight:700;color:var(--accent);}
+  .sstat .label{font-size:12px;color:var(--text-faint);margin-top:6px;font-family:var(--mono);}
 
   /* Sections */
-  section{padding:72px 0;border-top:1px solid var(--border);}
-  .sec-head{margin-bottom:38px;}
-  .sec-kicker{font-size:12.5px;font-weight:700;letter-spacing:.12em;color:var(--accent);text-transform:uppercase;margin-bottom:8px;}
-  .sec-title{font-size:clamp(22px,3vw,30px);font-weight:800;letter-spacing:-0.01em;}
-  .sec-sub{color:var(--text-dim);margin-top:8px;max-width:620px;}
+  section{padding:84px 0;}
+  .sec-head{margin-bottom:42px;}
+  .sec-head.center{text-align:center;max-width:680px;margin:0 auto 46px;}
+  .sec-kicker{margin-bottom:12px;}
+  .sec-title{font-size:clamp(24px,3.4vw,34px);font-weight:700;letter-spacing:-0.01em;}
+  .sec-sub{color:var(--text-dim);margin-top:10px;}
+  .sec-head:not(.center) .sec-sub{max-width:600px;}
 
   /* About */
   .about-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:40px;}
   .about-grid p{color:var(--text-dim);margin:0 0 14px;}
   .info-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;}
-  .info-row{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--border);font-size:14px;}
+  .info-row{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--border);font-size:13.5px;}
   .info-row:last-child{border-bottom:none;}
-  .info-row .k{color:var(--text-faint);}
+  .info-row .k{color:var(--text-faint);font-family:var(--mono);}
   .info-row .v{color:var(--text);font-weight:500;text-align:right;}
-  #local-clock{font-family:'JetBrains Mono',monospace;}
+  #local-clock,#local-clock-2{font-family:var(--mono);}
+
+  /* Bracket hover effect for cards */
+  .bracket{position:relative;}
+  .bracket::before,.bracket::after{content:"";position:absolute;width:18px;height:18px;opacity:0;transition:opacity .2s ease;pointer-events:none;}
+  .bracket::before{top:6px;left:6px;border-top:2px solid var(--accent);border-left:2px solid var(--accent);}
+  .bracket::after{bottom:6px;right:6px;border-bottom:2px solid var(--accent);border-right:2px solid var(--accent);}
+  .bracket:hover::before,.bracket:hover::after{opacity:1;}
 
   /* Experience */
-  .exp-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;}
-  .exp-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:16px;}
-  .exp-role{font-size:18px;font-weight:700;}
+  .exp-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:30px;}
+  .exp-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:18px;}
+  .exp-role{font-size:18px;font-weight:700;font-family:var(--display);}
   .exp-org{color:var(--accent);font-weight:600;}
-  .exp-date{font-size:13px;color:var(--text-faint);font-family:'JetBrains Mono',monospace;white-space:nowrap;}
+  .exp-date{font-size:12.5px;color:var(--text-faint);font-family:var(--mono);white-space:nowrap;}
   .exp-card ul{margin:0;padding-left:20px;color:var(--text-dim);}
   .exp-card li{margin-bottom:10px;}
 
@@ -170,33 +220,34 @@
     padding:24px;display:flex;flex-direction:column;transition:border-color .2s, transform .2s;
   }
   .proj-card:hover{border-color:var(--accent-dim);transform:translateY(-3px);}
-  .proj-tag{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
-  .proj-title{font-size:16.5px;font-weight:700;margin-bottom:6px;}
+  .proj-tag{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+  .proj-title{font-size:16.5px;font-weight:700;margin-bottom:6px;font-family:var(--display);}
   .proj-desc{color:var(--text-dim);font-size:14px;margin-bottom:14px;flex-grow:1;}
   .proj-metric{
     display:inline-block;background:var(--accent-soft);color:var(--accent);
-    font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:600;
+    font-family:var(--mono);font-size:12px;font-weight:600;
     padding:4px 10px;border-radius:6px;margin-bottom:14px;align-self:flex-start;
   }
   .proj-stack{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;}
-  .chip{font-size:11.5px;color:var(--text-faint);background:var(--bg-elev);border:1px solid var(--border);padding:3px 9px;border-radius:999px;}
+  .chip{font-size:11.5px;color:var(--text-faint);background:var(--bg-elev);border:1px solid var(--border);padding:3px 9px;border-radius:999px;font-family:var(--mono);}
   .proj-link{font-size:13.5px;font-weight:600;display:inline-flex;align-items:center;gap:6px;margin-top:auto;}
 
   /* Skills */
   .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;}
   .skill-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;}
-  .skill-card h3{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin:0 0 12px;}
+  .skill-card h3{font-size:12.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin:0 0 12px;font-family:var(--mono);font-weight:600;}
   .skill-card .chip{margin:0 6px 6px 0;}
 
   /* Certifications */
   .cert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;}
   .cert-card{
     display:flex;gap:12px;align-items:flex-start;background:var(--bg-card);border:1px solid var(--border);
-    border-radius:12px;padding:16px;
+    border-radius:12px;padding:16px;transition:border-color .2s;
   }
+  .cert-card:hover{border-color:var(--border-hi);}
   .cert-icon{
     width:34px;height:34px;border-radius:9px;background:var(--accent-soft);color:var(--accent);
-    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex:none;
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex:none;font-family:var(--mono);
   }
   .cert-name{font-size:13.5px;font-weight:600;}
   .cert-issuer{font-size:12.5px;color:var(--text-faint);}
@@ -207,21 +258,32 @@
 
   /* Contact */
   .contact-card{
-    background:linear-gradient(135deg,var(--bg-card),var(--bg-elev));
-    border:1px solid var(--border);border-radius:20px;padding:48px;text-align:center;
+    position:relative;overflow:hidden;
+    background:linear-gradient(160deg,var(--bg-card),var(--bg-soft));
+    border:1px solid var(--border);border-radius:22px;padding:56px 48px;text-align:center;
   }
-  .contact-card h2{font-size:clamp(22px,3.4vw,32px);font-weight:800;margin:0 0 12px;}
-  .contact-card p{color:var(--text-dim);margin:0 0 28px;}
-  .contact-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+  .contact-card::before{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(60% 80% at 50% 0%, var(--accent-glow), transparent 70%);
+    pointer-events:none;
+  }
+  .contact-card h2{font-size:clamp(24px,3.6vw,34px);font-weight:700;margin:0 0 12px;position:relative;}
+  .contact-card p{color:var(--text-dim);margin:0 0 30px;position:relative;}
+  .contact-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;position:relative;}
 
-  footer{padding:32px 0 48px;text-align:center;color:var(--text-faint);font-size:13px;}
+  footer{padding:36px 0 52px;text-align:center;color:var(--text-faint);font-size:13px;font-family:var(--mono);}
 
+  @media (max-width:860px){
+    .hero-grid{grid-template-columns:1fr;}
+    .panel-wrap{max-width:460px;}
+  }
   @media (max-width:760px){
-    .navlinks{position:fixed;inset:64px 0 0 0;background:var(--bg);flex-direction:column;align-items:flex-start;padding:24px;gap:18px;border-top:1px solid var(--border);display:none;}
+    .navlinks{position:fixed;inset:66px 0 0 0;background:var(--bg);flex-direction:column;align-items:flex-start;padding:24px;gap:18px;border-top:1px solid var(--border);display:none;}
     .navlinks.open{display:flex;}
     .navtoggle{display:block;}
     .about-grid{grid-template-columns:1fr;}
-    .stats{grid-template-columns:repeat(2,1fr);}
+    .statstrip .wrap{grid-template-columns:repeat(2,1fr);}
+    .sstat:nth-child(3){border-left:none;}
   }
 </style>
 </head>
@@ -229,7 +291,7 @@
 
 <nav>
   <div class="wrap">
-    <a href="#top" class="brand">Abdelrahman<span>.</span>Qasim</a>
+    <a href="#top" class="brand"><span class="tri">▸</span>Abdelrahman.Qasim</a>
     <button class="navtoggle" id="navtoggle" aria-label="Menu">☰</button>
     <div class="navlinks" id="navlinks">
       <a href="#about">About</a>
@@ -245,48 +307,73 @@
 
 <header class="hero" id="top">
   <div class="wrap">
-    <div class="eyebrow"><span class="dot"></span> Open to new roles · Available immediately</div>
-    <h1 class="name">Abdelrahman Qasim</h1>
-    <p class="tagline">AI Engineer building <b>production</b>-grade LLM pipelines, agent systems, and applied ML — from model to shipped service.</p>
-    <div class="hero-meta">
-      <span class="pill">📍 Based between Doha, Qatar &amp; Istanbul, Turkey</span>
-      <span class="pill">✈️ Open to relocating — Netherlands · Switzerland · United States</span>
-      <span class="pill">🗣️ Arabic (native) · English (fluent) · Turkish (conversational)</span>
-    </div>
-    <div class="hero-ctas">
-      <a class="btn btn-primary" href="mailto:abdelqasim.eng@gmail.com">Get in touch</a>
-      <a class="btn btn-ghost" href="https://github.com/abdelqasim" target="_blank" rel="noopener">GitHub ↗</a>
-      <a class="btn btn-ghost" href="https://linkedin.com/in/abdelrahman-qasim" target="_blank" rel="noopener">LinkedIn ↗</a>
-    </div>
-    <div class="stats">
-      <div class="stat"><div class="num">6mo</div><div class="label">Production AI @ ROVR, Zurich</div></div>
-      <div class="stat"><div class="num">6</div><div class="label">Shipped ML / LLM projects</div></div>
-      <div class="stat"><div class="num">35+</div><div class="label">ML / AI certifications</div></div>
-      <div class="stat"><div class="num">2026</div><div class="label">B.Sc. AI Engineering, graduated</div></div>
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow pill"><span class="dot-live"></span> OPEN TO NEW ROLES · AVAILABLE IMMEDIATELY</div>
+        <h1 class="name">AI systems that<br>actually <span class="accent-word">ship.</span></h1>
+        <p class="tagline">Abdelrahman Qasim — AI Engineer building <b>production</b>-grade LLM pipelines, agent systems, and applied ML, from model to shipped service.</p>
+        <div class="hero-meta">
+          <span class="pill">📍 Doha, Qatar &amp; Istanbul, Turkey</span>
+          <span class="pill">✈️ Open to relocating — NL · CH · US</span>
+          <span class="pill">🗣️ AR (native) · EN (fluent) · TR (conversational)</span>
+        </div>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="mailto:abdelqasim.eng@gmail.com">Get in touch</a>
+          <a class="btn btn-ghost" href="https://github.com/abdelqasim" target="_blank" rel="noopener">GitHub ↗</a>
+          <a class="btn btn-ghost" href="https://linkedin.com/in/abdelrahman-qasim" target="_blank" rel="noopener">LinkedIn ↗</a>
+        </div>
+      </div>
+      <div class="panel-wrap">
+        <div class="panel-corner tl"></div>
+        <div class="panel-corner br"></div>
+        <div class="term">
+          <div class="term-bar">
+            <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+            <span class="term-title">status.sh — abdelqasim</span>
+          </div>
+          <div class="term-body">
+            <div class="term-row"><span class="term-k">role</span><span class="term-v accentv">AI Engineer</span></div>
+            <div class="term-row"><span class="term-k">based_in</span><span class="term-v">Doha, QA / Istanbul, TR</span></div>
+            <div class="term-row"><span class="term-k">relocate</span><span class="term-v">NL · CH · US</span></div>
+            <div class="term-row"><span class="term-k">local_time</span><span class="term-v" id="local-clock">—</span></div>
+            <div class="term-row"><span class="term-k">stack</span><span class="term-v">LLM · RAG · CV · MLOps</span></div>
+            <div class="term-row"><span class="term-k">availability</span><span class="term-v accentv">immediate</span></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </header>
 
+<div class="statstrip">
+  <div class="wrap">
+    <div class="sstat"><div class="num">6mo</div><div class="label">PRODUCTION AI · ROVR, ZURICH</div></div>
+    <div class="sstat"><div class="num">6</div><div class="label">SHIPPED ML / LLM PROJECTS</div></div>
+    <div class="sstat"><div class="num">35+</div><div class="label">ML / AI CERTIFICATIONS</div></div>
+    <div class="sstat"><div class="num">2026</div><div class="label">B.SC. AI ENGINEERING, GRADUATED</div></div>
+  </div>
+</div>
+
 <section id="about">
   <div class="wrap">
-    <div class="sec-head">
-      <div class="sec-kicker">01 · About</div>
+    <div class="sec-head reveal">
+      <div class="eyebrow sec-kicker"><span class="tri">▸</span> 01 · ABOUT</div>
       <div class="sec-title">A little about me</div>
     </div>
     <div class="about-grid">
-      <div>
+      <div class="reveal">
         <p>I'm an AI Engineer with hands-on experience across LLMs, agent systems, computer vision, and classical ML. I shipped a production AI pipeline at ROVR, a Zurich-based recruitment-tech startup, and have built and deployed systems ranging from a WhatsApp-based conversational agent to real-time fault-detection platforms with full MLOps tooling.</p>
         <p>I care most about AI that actually ships and holds up under real use — which is why most of my projects pair a model with an evaluation layer, a fairness or robustness check, or a deployed service around it, rather than stopping at a notebook result.</p>
         <p>I hold a B.Sc. in Artificial Intelligence Engineering from Bahçeşehir University (2022–2026), and I'm open to opportunities that let me keep working at the production end of AI.</p>
       </div>
-      <div class="info-card">
-        <div class="info-row"><span class="k">Location</span><span class="v">Doha, QA &amp; Istanbul, TR</span></div>
-        <div class="info-row"><span class="k">Open to relocating</span><span class="v">NL · CH · US</span></div>
-        <div class="info-row"><span class="k">Local time</span><span class="v" id="local-clock">—</span></div>
-        <div class="info-row"><span class="k">Availability</span><span class="v">Immediate</span></div>
-        <div class="info-row"><span class="k">Email</span><span class="v"><a href="mailto:abdelqasim.eng@gmail.com">abdelqasim.eng@gmail.com</a></span></div>
-        <div class="info-row"><span class="k">GitHub</span><span class="v"><a href="https://github.com/abdelqasim" target="_blank" rel="noopener">@abdelqasim</a></span></div>
-        <div class="info-row"><span class="k">LinkedIn</span><span class="v"><a href="https://linkedin.com/in/abdelrahman-qasim" target="_blank" rel="noopener">in/abdelrahman-qasim</a></span></div>
+      <div class="info-card reveal">
+        <div class="info-row"><span class="k">location</span><span class="v">Doha, QA &amp; Istanbul, TR</span></div>
+        <div class="info-row"><span class="k">open_to</span><span class="v">NL · CH · US</span></div>
+        <div class="info-row"><span class="k">local_time</span><span class="v" id="local-clock-2">—</span></div>
+        <div class="info-row"><span class="k">availability</span><span class="v">Immediate</span></div>
+        <div class="info-row"><span class="k">email</span><span class="v"><a href="mailto:abdelqasim.eng@gmail.com">abdelqasim.eng@gmail.com</a></span></div>
+        <div class="info-row"><span class="k">github</span><span class="v"><a href="https://github.com/abdelqasim" target="_blank" rel="noopener">@abdelqasim</a></span></div>
+        <div class="info-row"><span class="k">linkedin</span><span class="v"><a href="https://linkedin.com/in/abdelrahman-qasim" target="_blank" rel="noopener">in/abdelrahman-qasim</a></span></div>
       </div>
     </div>
   </div>
@@ -294,11 +381,11 @@
 
 <section id="experience">
   <div class="wrap">
-    <div class="sec-head">
-      <div class="sec-kicker">02 · Experience</div>
+    <div class="sec-head reveal">
+      <div class="eyebrow sec-kicker"><span class="tri">▸</span> 02 · EXPERIENCE</div>
       <div class="sec-title">Where I've worked</div>
     </div>
-    <div class="exp-card">
+    <div class="exp-card bracket reveal">
       <div class="exp-top">
         <div>
           <div class="exp-role">Artificial Intelligence Engineer — Internship</div>
@@ -319,14 +406,14 @@
 
 <section id="projects">
   <div class="wrap">
-    <div class="sec-head">
-      <div class="sec-kicker">03 · Projects</div>
+    <div class="sec-head center reveal">
+      <div class="eyebrow sec-kicker" style="justify-content:center;"><span class="tri">▸</span> 03 · PROJECTS</div>
       <div class="sec-title">Selected work</div>
       <div class="sec-sub">Six shipped projects spanning LLM agents, applied computer vision, and classical ML — each with a working repo.</div>
     </div>
     <div class="proj-grid">
 
-      <div class="proj-card">
+      <div class="proj-card bracket reveal">
         <div class="proj-tag">LLM Agents</div>
         <div class="proj-title">Style-Adaptive Conversational Agent for WhatsApp</div>
         <div class="proj-desc">Thesis project. An LLM-powered WhatsApp agent that reads each user's tone and formality and adapts its own style in response, with multi-turn memory and guardrails to stay coherent and on-topic across long sessions.</div>
@@ -337,7 +424,7 @@
         <a class="proj-link" href="https://github.com/abdelqasim/whatsapp-style-agent" target="_blank" rel="noopener">View repo →</a>
       </div>
 
-      <div class="proj-card">
+      <div class="proj-card bracket reveal">
         <div class="proj-tag">Applied ML · MLOps</div>
         <div class="proj-title">HVAC Fault Detection &amp; Diagnostics Platform</div>
         <div class="proj-desc">A LightGBM classifier over sliding-window features from 6 RTU sensor signals, distinguishing 6 fault classes. Shipped as a FastAPI microservice with batch and real-time inference endpoints, tracked through MLflow, containerized with Docker Compose.</div>
@@ -349,7 +436,7 @@
         <a class="proj-link" href="https://github.com/abdelqasim/HVACC" target="_blank" rel="noopener">View repo →</a>
       </div>
 
-      <div class="proj-card">
+      <div class="proj-card bracket reveal">
         <div class="proj-tag">Time Series · Trading</div>
         <div class="proj-title">LSTM–XGBoost BTC Trading Signal Dashboard</div>
         <div class="proj-desc">A hybrid LSTM + XGBoost pipeline for BTC/USDT signal generation, combining learned temporal features with RSI, MACD, Bollinger Bands, EMA, and ATR. Live Streamlit dashboard streams Binance data and estimates leverage and P&amp;L risk.</div>
@@ -361,7 +448,7 @@
         <a class="proj-link" href="https://github.com/abdelqasim/lstm-xgb-trading-signals" target="_blank" rel="noopener">View repo →</a>
       </div>
 
-      <div class="proj-card">
+      <div class="proj-card bracket reveal">
         <div class="proj-tag">Computer Vision</div>
         <div class="proj-title">Real-Time Posture Monitor (CNN-GRU)</div>
         <div class="proj-desc">A hybrid CNN-GRU model over 33 Mediapipe pose keypoints that classifies posture as Good, Bad, or Leaning in real time, triggering an audio alert after 3 consecutive bad frames.</div>
@@ -372,7 +459,7 @@
         <a class="proj-link" href="https://github.com/abdelqasim/posture-monitor-cnn-gru" target="_blank" rel="noopener">View repo →</a>
       </div>
 
-      <div class="proj-card">
+      <div class="proj-card bracket reveal">
         <div class="proj-tag">AgriTech</div>
         <div class="proj-title">Hybrid AI for Hydroponic Crop Analysis</div>
         <div class="proj-desc">A decision-support pipeline combining CNN features with DBSCAN clustering to flag crop-health patterns, with a Random Forest trained as a fast surrogate for DBSCAN's cluster assignments — explaining its near-perfect fidelity to the clustering it approximates, not a held-out classification result.</div>
@@ -383,7 +470,7 @@
         <a class="proj-link" href="https://github.com/abdelqasim/Hybrid-AI-for-Hydroponic-Crop-Analysis" target="_blank" rel="noopener">View repo →</a>
       </div>
 
-      <div class="proj-card">
+      <div class="proj-card bracket reveal">
         <div class="proj-tag">Coursework · Fundamentals</div>
         <div class="proj-title">PCA for Facial Recognition &amp; Generation</div>
         <div class="proj-desc">An exploration of Principal Component Analysis for face reconstruction and generation on CelebA — compressing faces into a low-dimensional component space and reconstructing them with minimal information loss.</div>
@@ -400,32 +487,32 @@
 
 <section id="skills">
   <div class="wrap">
-    <div class="sec-head">
-      <div class="sec-kicker">04 · Skills</div>
+    <div class="sec-head reveal">
+      <div class="eyebrow sec-kicker"><span class="tri">▸</span> 04 · SKILLS</div>
       <div class="sec-title">Technical stack</div>
     </div>
     <div class="skills-grid">
-      <div class="skill-card">
+      <div class="skill-card reveal">
         <h3>Languages</h3>
         <span class="chip">Python</span><span class="chip">SQL</span><span class="chip">C++ (Embedded)</span>
       </div>
-      <div class="skill-card">
+      <div class="skill-card reveal">
         <h3>ML &amp; AI</h3>
         <span class="chip">Deep Learning</span><span class="chip">NLP</span><span class="chip">Computer Vision</span>
         <span class="chip">Generative AI</span><span class="chip">LLM Fine-Tuning</span><span class="chip">RAG</span>
         <span class="chip">LLM-as-a-Judge</span>
       </div>
-      <div class="skill-card">
+      <div class="skill-card reveal">
         <h3>Frameworks</h3>
         <span class="chip">PyTorch</span><span class="chip">TensorFlow</span><span class="chip">Keras</span>
         <span class="chip">Hugging Face</span><span class="chip">Scikit-learn</span><span class="chip">OpenCV</span><span class="chip">Streamlit</span>
       </div>
-      <div class="skill-card">
+      <div class="skill-card reveal">
         <h3>MLOps &amp; Deployment</h3>
         <span class="chip">Docker</span><span class="chip">Airflow</span><span class="chip">Azure ML</span>
         <span class="chip">GCP</span><span class="chip">Microservices</span>
       </div>
-      <div class="skill-card">
+      <div class="skill-card reveal">
         <h3>Agents &amp; Automation</h3>
         <span class="chip">n8n</span><span class="chip">LangChain</span><span class="chip">OpenAI API</span>
         <span class="chip">Qdrant</span><span class="chip">Haystack 2.x</span><span class="chip">Multi-Agent Orchestration</span>
@@ -436,30 +523,30 @@
 
 <section id="certifications">
   <div class="wrap">
-    <div class="sec-head">
-      <div class="sec-kicker">05 · Certifications</div>
+    <div class="sec-head reveal">
+      <div class="eyebrow sec-kicker"><span class="tri">▸</span> 05 · CERTIFICATIONS</div>
       <div class="sec-title">Selected certifications</div>
       <div class="sec-sub">35+ certifications completed to date — ten most relevant shown below; the full list is on LinkedIn.</div>
     </div>
     <div class="cert-grid">
-      <div class="cert-card"><div class="cert-icon">DL</div><div><div class="cert-name">Deep Learning with PyTorch, Keras &amp; TensorFlow</div><div class="cert-issuer">IBM · Professional Certificate (5 courses)</div></div></div>
-      <div class="cert-card"><div class="cert-icon">XAI</div><div><div class="cert-name">Explainable AI (XAI)</div><div class="cert-issuer">Duke University · Specialization (3 courses)</div></div></div>
-      <div class="cert-card"><div class="cert-icon">ML</div><div><div class="cert-name">Introduction to Machine Learning</div><div class="cert-issuer">IBM · Specialization (4 courses)</div></div></div>
-      <div class="cert-card"><div class="cert-icon">OPS</div><div><div class="cert-name">MLOps Platforms: Amazon SageMaker &amp; Azure ML</div><div class="cert-issuer">Duke University</div></div></div>
-      <div class="cert-card"><div class="cert-icon">GEN</div><div><div class="cert-name">GenAI Foundations &amp; AI Agents Development</div><div class="cert-issuer">Starweaver</div></div></div>
-      <div class="cert-card"><div class="cert-icon">ML</div><div><div class="cert-name">Structuring Machine Learning Projects</div><div class="cert-issuer">DeepLearning.AI</div></div></div>
-      <div class="cert-card"><div class="cert-icon">CLD</div><div><div class="cert-name">Cloud Virtualization, Containers &amp; APIs</div><div class="cert-issuer">Duke University</div></div></div>
-      <div class="cert-card"><div class="cert-icon">AZ</div><div><div class="cert-name">Introduction to Microsoft Azure Cloud Services</div><div class="cert-issuer">Microsoft</div></div></div>
-      <div class="cert-card"><div class="cert-icon">GCP</div><div><div class="cert-name">Scaling Microservices: Migration to Redis Enterprise</div><div class="cert-issuer">Google Cloud</div></div></div>
-      <div class="cert-card"><div class="cert-icon">DS</div><div><div class="cert-name">Data Science Methodology</div><div class="cert-issuer">IBM</div></div></div>
+      <div class="cert-card reveal"><div class="cert-icon">DL</div><div><div class="cert-name">Deep Learning with PyTorch, Keras &amp; TensorFlow</div><div class="cert-issuer">IBM · Professional Certificate (5 courses)</div></div></div>
+      <div class="cert-card reveal"><div class="cert-icon">XAI</div><div><div class="cert-name">Explainable AI (XAI)</div><div class="cert-issuer">Duke University · Specialization (3 courses)</div></div></div>
+      <div class="cert-card reveal"><div class="cert-icon">ML</div><div><div class="cert-name">Introduction to Machine Learning</div><div class="cert-issuer">IBM · Specialization (4 courses)</div></div></div>
+      <div class="cert-card reveal"><div class="cert-icon">OPS</div><div><div class="cert-name">MLOps Platforms: Amazon SageMaker &amp; Azure ML</div><div class="cert-issuer">Duke University</div></div></div>
+      <div class="cert-card reveal"><div class="cert-icon">GEN</div><div><div class="cert-name">GenAI Foundations &amp; AI Agents Development</div><div class="cert-issuer">Starweaver</div></div></div>
+      <div class="cert-card reveal"><div class="cert-icon">ML</div><div><div class="cert-name">Structuring Machine Learning Projects</div><div class="cert-issuer">DeepLearning.AI</div></div></div>
+      <div class="cert-card reveal"><div class="cert-icon">CLD</div><div><div class="cert-name">Cloud Virtualization, Containers &amp; APIs</div><div class="cert-issuer">Duke University</div></div></div>
+      <div class="cert-card reveal"><div class="cert-icon">AZ</div><div><div class="cert-name">Introduction to Microsoft Azure Cloud Services</div><div class="cert-issuer">Microsoft</div></div></div>
+      <div class="cert-card reveal"><div class="cert-icon">GCP</div><div><div class="cert-name">Scaling Microservices: Migration to Redis Enterprise</div><div class="cert-issuer">Google Cloud</div></div></div>
+      <div class="cert-card reveal"><div class="cert-icon">DS</div><div><div class="cert-name">Data Science Methodology</div><div class="cert-issuer">IBM</div></div></div>
     </div>
-    <div class="cert-more">+ 25 more certifications across data science, cloud, and leadership — full list on <a href="https://linkedin.com/in/abdelrahman-qasim" target="_blank" rel="noopener">LinkedIn</a>.</div>
+    <div class="cert-more reveal">+ 25 more certifications across data science, cloud, and leadership — full list on <a href="https://linkedin.com/in/abdelrahman-qasim" target="_blank" rel="noopener">LinkedIn</a>.</div>
   </div>
 </section>
 
 <section id="contact">
   <div class="wrap">
-    <div class="contact-card">
+    <div class="contact-card reveal">
       <h2>Let's work together</h2>
       <p>Open to Applied AI Engineer / AI Engineer roles — available immediately, open to relocating.</p>
       <div class="contact-links">
@@ -491,13 +578,32 @@
     try{
       var now = new Date();
       var fmt = new Intl.DateTimeFormat('en-GB', { hour:'2-digit', minute:'2-digit', timeZone:'Asia/Qatar' });
-      document.getElementById('local-clock').textContent = fmt.format(now) + ' (Doha)';
+      var text = fmt.format(now) + ' (Doha)';
+      document.getElementById('local-clock').textContent = text;
+      var el2 = document.getElementById('local-clock-2');
+      if(el2){ el2.textContent = text; }
     }catch(e){
-      document.getElementById('local-clock').textContent = new Date().toLocaleTimeString();
+      var fallback = new Date().toLocaleTimeString();
+      document.getElementById('local-clock').textContent = fallback;
     }
   }
   tickClock();
   setInterval(tickClock, 30000);
+
+  // Scroll-reveal for section content.
+  if('IntersectionObserver' in window){
+    var revealObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('in-view');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(function(el){ revealObserver.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in-view'); });
+  }
 </script>
 
 </body>
